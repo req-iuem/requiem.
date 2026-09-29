@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Requiem — The Brown Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#21150f;--panel:rgba(90,56,37,.18);--text:#f3e7d7;--cream:#ead8c3;--muted:#cdb9a5;--acc:#b8895e;--line:rgba(184,137,94,.25);--sq1:#ead8c3;--sq2:#8b6245;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#21150f}}
+:root[data-theme="dark"]{--bg:#21150f}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{min-height:100vh;background:var(--bg);color:var(--text);font-family:"DM Mono",ui-monospace,monospace;overflow-x:hidden;transition:background .6s}
+.glow{position:fixed;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:1;left:0;top:0;background:radial-gradient(circle,color-mix(in srgb,var(--acc) 28%,transparent),transparent 65%);transform:translate(-50%,-50%);transition:opacity .3s}
+main{position:relative;z-index:2;width:min(1000px,92%);margin:auto}
+h1,h2,.serif{font-family:"Playfair Display",Georgia,serif;color:var(--cream)}
+/* intro */
+.intro{position:fixed;inset:0;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#160d09;transition:transform 1s cubic-bezier(.7,0,.2,1)}
+.intro.done{transform:translateY(-100%)}
+.intro small{color:var(--acc);letter-spacing:5px;font-size:11px;text-transform:uppercase}
+.intro h1{font-size:clamp(50px,14vw,120px);letter-spacing:-3px;margin:12px 0;animation:up 1.2s ease both}
+.bar{width:min(240px,60vw);height:2px;background:rgba(184,137,94,.2)}
+.bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .1s}
+#pct{margin-top:12px;font-size:12px;color:var(--muted)}
+@keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+/* hero */
+header{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:90px 0 50px}
+.eyebrow{color:var(--acc);font-size:12px;letter-spacing:4px;text-transform:uppercase;margin-bottom:18px}
+header h1{font-size:clamp(60px,14vw,140px);line-height:.88;letter-spacing:-5px}
+header h1 span{color:var(--acc);font-style:italic}
+.sub{max-width:540px;margin-top:30px;line-height:1.8;color:var(--muted);font-size:14px}
+.rot{margin-top:22px;font-size:13px;color:var(--acc);min-height:20px}
+.rot b{color:var(--cream);font-weight:500}
+.sec{padding:80px 0}
+.label{color:var(--acc);font-size:11px;letter-spacing:4px;text-transform:uppercase;margin-bottom:26px}
+.rv{opacity:0;transform:translateY(34px);transition:opacity .8s,transform .8s}
+.rv.in{opacity:1;transform:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{padding:30px;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(8px);transition:.3s}
+.card:hover{border-color:var(--acc);transform:translateY(-5px)}
+.card h2{font-size:30px;margin:14px 0}
+.card p{color:var(--muted);line-height:1.8;font-size:13px}
+.tag{font-size:11px;color:#8b6245}
+/* favorites */
+.favs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.fav{min-height:150px;padding:20px 16px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(111,73,50,.25),rgba(48,32,23,.5));color:var(--text);font:inherit;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;transition:.3s}
+.fav:hover,.fav.on{border-color:var(--acc);transform:translateY(-5px)}
+.fav .ic{font-size:28px;color:var(--acc)}
+.fav .nm{font-size:13px;color:var(--cream)}
+.fav .tx{font-size:11px;color:var(--muted);line-height:1.5;max-height:0;overflow:hidden;opacity:0;transition:.4s}
+.fav.on .tx{max-height:80px;opacity:1;margin-top:8px}
+/* music */
+.music{border:1px solid var(--line);padding:36px;background:linear-gradient(110deg,rgba(111,73,50,.22),rgba(33,21,15,.6))}
+.music h2{font-size:clamp(32px,7vw,58px);margin-bottom:18px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+.chip{border:1px solid #6f4932;background:none;color:var(--acc);font:inherit;font-size:12px;padding:10px 16px;border-radius:100px;cursor:pointer;transition:.25s}
+.chip.on,.chip:hover{background:var(--acc);color:#21150f}
+#mood{color:var(--muted);line-height:1.8;font-size:13px;min-height:48px}
+.eq{display:flex;align-items:flex-end;gap:5px;height:70px;margin-top:20px}
+.eq i{flex:1;max-width:14px;background:var(--acc);border-radius:2px 2px 0 0;height:20%;animation:eq var(--s,1.2s) ease-in-out infinite alternate;animation-delay:calc(var(--i)*-.13s)}
+@keyframes eq{to{height:100%}}
+/* chess */
+.chessbox{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:28px;align-items:center}
+.board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border:2px solid var(--acc);width:100%}
+.sq{position:relative;border:0;font-size:clamp(16px,5vw,30px);cursor:pointer;background:var(--sq1);color:#21150f;display:flex;align-items:center;justify-content:center}
+.sq.d{background:var(--sq2)}
+.sq.m::after{content:"";width:34%;height:34%;border-radius:50%;background:rgba(33,21,15,.55);position:absolute;animation:pop .3s}
+.sq.k{color:#21150f;text-shadow:0 0 12px #fff8}
+@keyframes pop{from{transform:scale(0)}}
+.info p{color:var(--muted);line-height:1.8;font-size:13px}
+.info b{color:var(--cream)}
+button.reset{margin-top:16px;background:none;border:1px solid var(--acc);color:var(--cream);font:inherit;font-size:12px;padding:9px 16px;cursor:pointer}
+button.reset:hover{background:var(--acc);color:#21150f}
+/* palette */
+.pal{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:22px}
+.sh{height:120px;border:0;font:inherit;font-size:10px;letter-spacing:1px;padding:12px;display:flex;align-items:flex-end;color:#f3e7d7;cursor:pointer;transition:.3s}
+.sh:hover{transform:scaleY(1.07);transform-origin:bottom}
+.sh.on{outline:2px solid var(--cream);outline-offset:-4px}
+.hint{font-size:12px;color:var(--muted);margin-top:14px}
+/* social */
+.social{text-align:center;padding:110px 0}
+.social h2{font-size:clamp(40px,8vw,72px);margin-bottom:14px}
+.social p{color:var(--muted);font-size:13px;margin-bottom:32px}
+.ig{display:inline-flex;align-items:center;gap:12px;padding:15px 26px;border:1px solid var(--acc);color:var(--cream);text-decoration:none;font-size:13px;transition:.3s}
+.ig:hover{background:var(--acc);color:#21150f;transform:translateY(-4px);box-shadow:0 10px 30px rgba(184,137,94,.25)}
+.ig svg{width:22px;height:22px;fill:currentColor}
+footer{border-top:1px solid var(--line);padding:22px 0;color:#806b59;font-size:10px;display:flex;justify-content:space-between}
+@media(max-width:700px){.grid2,.chessbox{grid-template-columns:1fr}.favs{grid-template-columns:1fr 1fr}.sh{height:90px;font-size:8px;padding:6px}.glow{display:none}}
+@media(max-width:420px){.favs{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="intro" id="intro">
+  <small>entering the archive</small>
+  <h1>REQUIEM</h1>
+  <div class="bar"><i id="fill"></i></div>
+  <div id="pct">0%</div>
+</div>
+<div class="glow" id="glow"></div>
+
+<main>
+<header>
+  <div class="eyebrow">the brown archive / 001</div>
+  <h1>Bread<br><span>or Requiem.</span></h1>
+  <p class="sub">I am Req... well, Requiem. Or Bread. Music in the background, a chessboard in front, and every shade of brown imaginable.</p>
+  <div class="rot">currently: <b id="rot">listening to music</b></div>
+</header>
+
+<section class="sec rv">
+  <div class="label">01 — Profile</div>
+  <div class="grid2">
+    <div class="card"><div class="tag">IDENTITY</div><h2>I am Requiem.</h2><p>Also known as Bread.<br>Gender: Male<br>Fav colors: brown, coffee, mocha, waffle<br>Brown isn't just a color to me, it's a lifestyle.</p></div>
+    <div class="card"><div class="tag">CURRENTLY INTO</div><h2>Games &amp; Music</h2><p>When I'm not listening to music, I'm probably playing chess or Mobile Legends: Bang Bang.</p></div>
+  </div>
+</section>
+
+<section class="sec rv">
+  <div class="label">02 — What I love (tap them)</div>
+  <div class="favs">
+    <button class="fav"><span class="ic">♫</span><span><span class="nm">Listening to Music</span><span class="tx" style="display:block">Headphones on, world off.</span></span></button>
+    <button class="fav"><span class="ic">♟</span><span><span class="nm">Playing Chess</span><span class="tx" style="display:block">Slow thinker, sharp moves. Try the board below.</span></span></button>
+    <button class="fav"><span class="ic">⚔</span><span><span class="nm">Mobile Legends: Bang Bang</span><span class="tx" style="display:block">MLBB. The rank grind never stops.</span></span></button>
+  </div>
+</section>
+
+<section class="sec rv">
+  <div class="label">03 — Mobile Legends: Bang Bang</div>
+  <div class="grid2">
+    <div class="card"><div class="tag">MAIN ROLE</div><h2>Mage Lane</h2><p>Burst damage, big rotations, and mid lane control. I main mages.</p></div>
+    <div class="card"><div class="tag">MAIN ROLE</div><h2>Roaming</h2><p>Always on the move: setting up plays, protecting the team, and winning fights before they start.</p></div>
+  </div>
+</section>
+
+<section class="sec rv">
+  <div class="label">04 — Soundtrack</div>
+  <div class="music">
+    <h2>Slow sounds.<br>Deep moods.</h2>
+    <p style="color:var(--muted);font-size:13px;line-height:1.8">My favorite genres: slow rock, dream rock, and jazz. Tap one.</p>
+    <div class="chips" id="chips">
+      <button class="chip on" data-s="1.6" data-t="Slow rock: unhurried guitars, big feelings, and a chorus that hits like a warm coffee at midnight.">SLOW ROCK</button>
+      <button class="chip" data-s="2.4" data-t="Dream rock: hazy, reverb-soaked and floaty. Calm, nostalgic, a little mysterious.">DREAM ROCK</button>
+      <button class="chip" data-s=".9" data-t="Jazz: smoky rooms, brushed drums, and improvisation that never sits still.">JAZZ</button>
+    </div>
+    <p id="mood"></p>
+    <div class="eq" id="eq"></div>
+  </div>
+</section>
+
+<section class="sec rv">
+  <div class="label">05 — The board</div>
+  <div class="chessbox">
+    <div class="board" id="board"></div>
+    <div class="info">
+      <p><b>Knight's tour, sort of.</b> Tap the knight to see where it can jump, then tap a dot to move it.</p>
+      <p style="margin-top:10px">Moves made: <b id="moves">0</b></p>
+      <button class="reset" id="reset">reset board</button>
+    </div>
+  </div>
+</section>
+
+<section class="sec rv">
+  <div class="label">06 — The color problem</div>
+  <div class="card">
+    <h2>Brown.</h2>
+    <p>Coffee brown. Mocha brown. Waffle brown. Dark brown. Light brown. If brown exists, I probably like it.</p>
+    <div class="pal" id="pal"></div>
+    <div class="hint" id="hint">Tap a shade to repaint the whole page.</div>
+  </div>
+</section>
+
+<section class="social rv">
+  <div class="label">07 — Find me</div>
+  <h2>Stay in touch.</h2>
+  <p>I exist outside this website too.</p>
+  <a class="ig" href="https://www.instagram.com/4requ1em?stkn=MWZ3dnJ2d3F5aTJnMA==" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5Zm8.75 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+    @4requ1em
+  </a>
+</section>
+
+<footer><span>REQUIEM / BREAD</span><span>MADE IN BROWN</span></footer>
+</main>
+
+<script>
+// intro
+var n=0,fill=document.getElementById('fill'),pct=document.getElementById('pct'),intro=document.getElementById('intro');
+var t=setInterval(function(){n+=Math.ceil(Math.random()*9);if(n>=100){n=100;clearInterval(t);setTimeout(function(){intro.classList.add('done');document.body.style.overflow='';},350);}
+fill.style.width=n+'%';pct.textContent=n+'%';},70);
+document.body.style.overflow='hidden';
+
+// cursor glow
+var glow=document.getElementById('glow');
+addEventListener('pointermove',function(e){glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';});
+
+// reveal
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+
+// rotating text
+var words=['listening to music','playing chess','grinding MLBB','sipping something brown','vibing to jazz'],wi=0,rot=document.getElementById('rot');
+setInterval(function(){wi=(wi+1)%words.length;rot.textContent=words[wi];},2200);
+
+// favorites
+document.querySelectorAll('.fav').forEach(function(b){b.onclick=function(){b.classList.toggle('on')}});
+
+// music
+var eq=document.getElementById('eq'),mood=document.getElementById('mood');
+for(var i=0;i<24;i++){var b=document.createElement('i');b.style.setProperty('--i',i);eq.appendChild(b);}
+function setGenre(c){document.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on')});c.classList.add('on');mood.textContent=c.dataset.t;eq.style.setProperty('--s',c.dataset.s+'s');eq.querySelectorAll('i').forEach(function(x){x.style.setProperty('--s',c.dataset.s+'s')});}
+document.querySelectorAll('.chip').forEach(function(c){c.onclick=function(){setGenre(c)}});
+setGenre(document.querySelector('.chip'));
+
+// chess
+var board=document.getElementById('board'),movesEl=document.getElementById('moves'),kn=62,cnt=0,sel=false;
+function legal(p){var r=Math.floor(p/8),c=p%8,o=[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]],res=[];o.forEach(function(d){var R=r+d[0],C=c+d[1];if(R>=0&&R<8&&C>=0&&C<8)res.push(R*8+C)});return res;}
+function draw(){board.innerHTML='';var L=sel?legal(kn):[];for(var i=0;i<64;i++){(function(i){var s=document.createElement('button');s.className='sq'+(((Math.floor(i/8)+i)%2)?' d':'')+(L.indexOf(i)>-1?' m':'');s.setAttribute('aria-label','square '+i);if(i===kn){s.textContent='♞';s.classList.add('k');}
+s.onclick=function(){if(i===kn){sel=!sel;}else if(sel&&L.indexOf(i)>-1){kn=i;cnt++;sel=false;movesEl.textContent=cnt;}draw();};board.appendChild(s);})(i);}}
+document.getElementById('reset').onclick=function(){kn=62;cnt=0;sel=false;movesEl.textContent=0;draw();};
+draw();
+
+// palette
+var shades=[['DARK','#3b2418','#21150f'],['COFFEE','#6f4932','#2a1a11'],['MOCHA','#8b6245','#2e1e14'],['WAFFLE','#b8895e','#33221a'],['CARAMEL','#c68e4f','#2b1a10'],['CHOCOLATE','#7b3f00','#1f0f06'],['LATTE','#d2b48c','#3a281c'],['TAUPE','#a0826d','#2a1c15']];
+var pal=document.getElementById('pal'),hint=document.getElementById('hint');
+pal.style.gridTemplateColumns='repeat(4,1fr)';
+shades.forEach(function(s,i){var b=document.createElement('button');b.className='sh'+(i===3?' on':'');b.style.background=s[1];if(i>=4&&i!==7)b.style.color='#21150f';b.textContent=s[0];
+b.onclick=function(){document.querySelectorAll('.sh').forEach(function(x){x.classList.remove('on')});b.classList.add('on');var r=document.documentElement.style;r.setProperty('--acc',s[1]);r.setProperty('--bg',s[2]);r.setProperty('--sq2',s[1]);hint.textContent=s[0]+' — '+s[1]+' (page repainted)';};pal.appendChild(b);});
+</script>
+</body>
+</html>
